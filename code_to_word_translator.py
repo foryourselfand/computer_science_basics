@@ -21,5 +21,5 @@ class CodeToWordTranslator:
 
     def get_word_with_leading_zeroes(self, word: List[str]) -> List[str]:
         missing_zeroes_count: int = 4 - len(word)
-        word_result = ['0000'] * missing_zeroes_count + word
+        word_result: List[str] = ['0000'] * missing_zeroes_count + word
         return word_result

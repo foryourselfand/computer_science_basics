@@ -5,8 +5,7 @@ from code_to_word_translator import CodeToWordTranslator
 
 
 def main():
-    args_getter = ArgsGetter()
-    codes = args_getter.get_codes(argv)
+    codes = ArgsGetter().get_codes(argv)
 
     code_to_word_translator = CodeToWordTranslator()
     words = code_to_word_translator.translate_codes_to_words(codes)
