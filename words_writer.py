@@ -13,8 +13,8 @@ def main():
     code_to_word_translator = CodeToWordTranslator()
     words = code_to_word_translator.translate_codes_to_words(codes)
 
-    pyautogui.hotkey('alt', 'tab')
-    pyautogui.hotkey('alt', 'tab')
+    for i in range(2):
+        pyautogui.hotkey('command', 'tab')
     for code, word in zip(codes, words):
         for word_elem in word:
             if word_elem == ' ':

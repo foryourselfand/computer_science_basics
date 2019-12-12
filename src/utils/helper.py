@@ -9,3 +9,7 @@ def get_project_root() -> Path:
 def get_read_file(full_file_name: str, encoding: str = 'utf-8') -> List[str]:
     with open(full_file_name, 'r', encoding = encoding) as file_input:
         return file_input.read().splitlines()
+
+
+if __name__ == '__main__':
+    print(get_project_root())

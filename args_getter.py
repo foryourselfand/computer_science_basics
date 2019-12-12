@@ -1,4 +1,5 @@
 from typing import List
+from src.utils.helper import *
 
 
 class ArgsGetter:
@@ -13,5 +14,5 @@ class ArgsGetter:
         return args
 
     def __get_codes_from_file(self, file_name: str):
-        with open(file_name, 'r') as file_input:
+        with open(f'{get_project_root()}/variants/{file_name}', 'r') as file_input:
             return file_input.read().splitlines()
