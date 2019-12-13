@@ -20,7 +20,7 @@ def main():
     coords_input = (8, 62, 938, 580)
     coords = tuple([coord * 2 for coord in coords_input])
 
-    screenshot = pyautogui.screenshot('screenshot.png', region = coords)
+    screenshot = pyautogui.screenshot('images/screenshot-4.png', region = coords)
 
     delay_y = 84
 
@@ -72,7 +72,7 @@ def main():
     start_x_ar, start_y_ar = (1545, 965)
     ar_image = screenshot.crop((start_x_ar, start_y_ar,
                                 start_x_ar + width_short, start_y_ar + height))
-    ar_image.save('ar.png')
+    ar_image.save('images/ar-4.png')
 
 
 def get_processed_ram(ram_input: str) -> List[str]:
