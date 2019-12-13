@@ -2,8 +2,8 @@ from pprint import pprint
 from typing import Dict, List
 
 import pytesseract
-
 import pyautogui
+
 
 def read_flags(start_x: int, start_y: int,
                width: int, height: int,
@@ -51,8 +51,58 @@ def main():
                width_short, height,
                names_right_short,
                screenshot, flags, delay_y)
+    # pprint(flags)
 
-    pprint(flags)
+    start_x_ram, start_y_ram = (1525, 105)
+    width_ram, height_ram = (213, 805)
+    # ram_image = screenshot.crop((start_x_ram, start_y_ram,
+    #                              start_x_ram + width_ram, start_y_ram + height_ram))
+    #
+    # allowed_digits = '0123456789'
+    # allowed_chars_lower = 'abcdef'
+    # allowed_chars_upper = 'ABCDEF'
+    # allowed_chars = allowed_digits + allowed_chars_lower + allowed_chars_upper
+    # config_temp = f'tessedit_char_whitelist={allowed_chars}'
+    #
+    # ram_str = pytesseract.image_to_string(ram_image, lang = 'eng', config = config_temp)
+    # ram_list = get_processed_ram(ram_str)
+    # ram_dict = get_ram_dict(ram_list)
+    # pprint(ram_dict)
+
+    start_x_ar, start_y_ar = (1545, 965)
+    ar_image = screenshot.crop((start_x_ar, start_y_ar,
+                                start_x_ar + width_short, start_y_ar + height))
+    ar_image.save('ar.png')
+
+
+def get_processed_ram(ram_input: str) -> List[str]:
+    ram_list: List[str] = []
+    ram_split: List[str] = ram_input.splitlines()
+    for line_raw in ram_split:
+        if len(line_raw) < 3:
+            continue
+
+        line_upper = line_raw.upper()
+        line_temp = line_upper
+
+        line_temp = line_temp.replace('O', '0')
+        # line_temp = line_temp.replace('I', '1')
+        # line_temp = line_temp.replace('S', '8')
+
+        line_result = line_temp
+
+        ram_list.append(line_result)
+    return ram_list
+
+
+def get_ram_dict(ram_list: List[str]) -> Dict[str, str]:
+    ram_dict: Dict[str, str] = dict()
+
+    len_half = len(ram_list) // 2
+    for elem_key, elem_value in zip(ram_list[:len_half], ram_list[len_half:]):
+        ram_dict[elem_key] = elem_value
+
+    return ram_dict
 
 
 if __name__ == '__main__':
