@@ -4,6 +4,10 @@ from collections import namedtuple
 
 DataType = namedtuple('DataType', ['data_hex', 'data_bin', 'is_command', 'address_int', 'address_bin'])
 ProgramType: Type = Dict[str, DataType]
+# OutputType = namedtuple('Output',
+#                         ['address', 'code',
+#                          'IP', 'CR', 'AR', 'DR', 'SP', 'BR', 'AC', 'NZVC',
+#                          'address_changed', 'new_code'])
 
 
 def get_project_root() -> Path:

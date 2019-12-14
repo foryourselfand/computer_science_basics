@@ -1,29 +1,46 @@
+from collections import defaultdict
+import operator
 from typing import Dict, Tuple, List
+from pprint import pprint
+from src.utils.helper import get_project_root
+import pyautogui
 
 from PIL.Image import Image
 from pytesseract import pytesseract
 
+from src.bgcomp_reader.screen_config import ScreenConfig
 from src.bgcomp_reader.size import Size
-from src.utils.hash_list import HashList
 
 
 class BCompReader:
     def __init__(self):
+        self.__allowed = '01234567890ABCDEF'
+        self.__cfg = ScreenConfig()
         self.__flags: Dict[str, str] = dict()
         self.__ram: Dict[str, str] = dict()
         self.__delay_y: int = 84
+        self.__screenshot: Image = Image()
 
-    def get_flags_and_ram(self, flags_config: Dict[HashList, Size], ram_size: Size, screenshot: Image) \
+    def get_flags_and_ram(self) \
             -> Tuple[Dict[str, str], Dict[str, str]]:
-        self.process_computer(flags_config, ram_size, screenshot)
+        self.process_computer()
         return self.get_flags(), self.get_ram()
 
-    def process_computer(self, flags_config: Dict[HashList, Size], ram_size: Size, screenshot: Image):
+    def process_computer(self):
         self.__flags = dict()
         self.__ram = dict()
 
-        self.__process_flags(flags_config, screenshot)
-        self.__process_ram(ram_size, screenshot)
+        self.__screenshot = pyautogui.screenshot(region = self.__cfg.coords)
+
+        self.__process_flags()
+        self.__process_ram()
+
+        self.__fix_ram()
+
+        if not self.__check_ram_values():
+            print('BUT HURT')
+
+        self.__reduce_ram()
 
     def get_flags(self):
         return self.__flags
@@ -31,15 +48,69 @@ class BCompReader:
     def get_ram(self):
         return self.__ram
 
-    def __process_flags(self, flags_config: Dict[HashList, Size], screenshot: Image):
-        for names, size in flags_config.items():
-            for y_multiplier, name_key in enumerate(names):
-                text_temp = self.__read_flag(size, screenshot)
-                self.__flags[name_key] = text_temp
+    def __reduce_ram(self):
+        new_ram: Dict[str, str] = dict()
+        for key, value in self.__ram.items():
+            if value == '0000':
+                continue
+            new_ram[key] = value
+        self.__ram = new_ram
 
-    def __process_ram(self, ram_size: Size, screenshot: Image):
-        ram_image = screenshot.crop((ram_size.x, ram_size.y,
-                                     ram_size.x + ram_size.width, ram_size.y + ram_size.height))
+    def __process_flags(self):
+        for names, size in self.__cfg.flags_config.items():
+            for y_multiplier, name_key in enumerate(names):
+                text_temp = self.__read_flag(size.x, size.y, size.width, size.height, y_multiplier)
+                self.__flags[name_key] = text_temp.replace(' ', '')
+
+    def __fix_ram(self):
+        if self.__check_ram_keys():
+            return
+        print('SOMETHING BAD')
+        first: Dict[str, int] = defaultdict(int)
+        second: Dict[str, int] = defaultdict(int)
+
+        for key in self.__ram.keys():
+            first[key[0]] += 1
+            second[key[1]] += 1
+        first_sorted = sorted(first.items(), key = operator.itemgetter(0))
+        second_sorted = sorted(second.items(), key = operator.itemgetter(0))
+
+        print('first_sorted')
+        pprint(first_sorted)
+
+        print('second_sorted')
+        pprint(second_sorted)
+
+        first_common = first_sorted[0][0]
+        second_common = second_sorted[0][0]
+
+        print('first_common:', first_common)
+        print('second_common:', second_common)
+
+        new_ram: Dict[str, str] = dict()
+        for old_key, digit in zip(self.__ram.keys(), self.__allowed):
+            new_key = f'{first_common}{second_common}{digit}'
+            new_ram[new_key] = self.__ram[old_key]
+        self.__ram = new_ram
+
+    def __check_collection(self, collection):
+        for elem in collection:
+            for elem_part in elem:
+                if elem_part not in self.__allowed:
+                    print(f'STUPID -> {elem_part}')
+                    return False
+        return True
+
+    def __check_ram_keys(self):
+        return self.__check_collection(self.__ram.keys())
+
+    def __check_ram_values(self):
+        return self.__check_collection(self.__ram.values())
+
+    def __process_ram(self):
+        ram_image = self.__screenshot.crop((self.__cfg.ram_size.x, self.__cfg.ram_size.y,
+                                            self.__cfg.ram_size.x + self.__cfg.ram_size.width,
+                                            self.__cfg.ram_size.y + self.__cfg.ram_size.height))
         allowed_digits = '0123456789'
         allowed_chars_lower = 'abcdef'
         allowed_chars_upper = 'ABCDEF'
@@ -50,9 +121,10 @@ class BCompReader:
         ram_list = self.__get_ram_list(ram_str)
         self.__fill_ram_dict(ram_list)
 
-    def __read_flag(self, size: Size, screenshot: Image) -> str:
-        screenshot_part: Image = screenshot.crop((size.x, size.y,
-                                                  size.x + size.width, size.y + size.height))
+    def __read_flag(self, x: int, y: int, width: int, height: int, y_multiplier: int) -> str:
+        screenshot_part: Image = self.__screenshot.crop((x, y + self.__delay_y * y_multiplier,
+                                                         x + width, y + height + self.__delay_y * y_multiplier))
+
         text: str = pytesseract.image_to_string(screenshot_part)
         return text
 
@@ -79,3 +151,16 @@ class BCompReader:
 
             ram_list.append(line_result)
         return ram_list
+
+
+def main():
+    bcomp_reader = BCompReader()
+
+    flags, ram = bcomp_reader.get_flags_and_ram()
+
+    pprint(flags)
+    pprint(ram)
+
+
+if __name__ == '__main__':
+    main()

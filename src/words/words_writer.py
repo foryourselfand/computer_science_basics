@@ -40,6 +40,10 @@ class WordsWriter:
         pyautogui.typewrite(address)
         pyautogui.press('f4')
 
+    @staticmethod
+    def press_continue():
+        pyautogui.press('f8')
+
 
 def main():
     file_name = 'variants/4114.txt'

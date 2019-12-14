@@ -37,3 +37,15 @@ class ScreenConfig:
         start_x_ram, start_y_ram = (1525, 105)
         width_ram, height_ram = (213, 805)
         self.ram_size = Size(start_x_ram, start_y_ram, width_ram, height_ram)
+
+
+def main():
+    temp = ScreenConfig()
+    for key, value in temp.flags_config.items():
+        print(key)
+        print(value.height, value.width, value.x, value.y)
+        print()
+
+
+if __name__ == '__main__':
+    main()

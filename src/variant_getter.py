@@ -14,7 +14,11 @@ class VariantGetter:
 
         with open(f'{get_project_root()}/{full_file_name}', 'r') as file_input:
             for line_raw in file_input.read().splitlines():
-                address_flag = 'a' in line_raw
+                if 'a' in line_raw or len(line_raw) == 3:
+                    address_flag = True
+                else:
+                    address_flag = False
+
                 address_start_flag = '+' in line_raw
 
                 if 'v' in line_raw:
