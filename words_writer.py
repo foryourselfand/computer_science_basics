@@ -3,15 +3,14 @@ from sys import argv
 import pyautogui
 
 from args_getter import ArgsGetter
-from code_to_word_translator import CodeToWordTranslator
+from src.utils.code_to_word_translator import CodeToWordTranslator
 
 
 def main():
     args_getter = ArgsGetter()
     codes = args_getter.get_codes(argv)
 
-    code_to_word_translator = CodeToWordTranslator()
-    words = code_to_word_translator.translate_codes_to_words(codes)
+    words = CodeToWordTranslator.translate_codes_to_words(codes)
 
     for i in range(2):
         pyautogui.hotkey('command', 'tab')
