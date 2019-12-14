@@ -20,6 +20,8 @@ def main():
     pprint(flags)
     pprint(ram)
 
+    print('check 1')
+
 
 if __name__ == '__main__':
     main()
