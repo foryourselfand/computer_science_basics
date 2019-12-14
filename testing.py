@@ -16,7 +16,7 @@ def from_bin_to_hex(input_number: str, zeroes_count: int):
 
 
 def main():
-    file_name = 'variants/1274.txt'
+    file_name = 'variants/andrey.txt'
 
     variant_getter = VariantGetter()
     variant_getter.read_program(file_name)
