@@ -1,9 +1,44 @@
-import time
-from sys import argv
-
 import pyautogui
-
 from src.variant_getter import VariantGetter
+from src.utils.helper import ProgramType
+
+
+class WordsWriter:
+    def write_program(self, program: ProgramType, program_start: str):
+        self.__switch_to_next_window()
+
+        address_last = 0
+        for address_new, data in program.items():
+
+            address_current = data.address_int
+            address_delta = address_current - address_last
+
+            if address_delta != 1:
+                self.__write_address(data.address_bin)
+
+            self.__write_command(data.data_bin)
+
+            address_last = address_current
+
+        self.__write_address(program_start)
+
+    @staticmethod
+    def __switch_to_next_window():
+        pyautogui.keyDown('command')
+        pyautogui.keyDown('tab')
+
+        pyautogui.keyUp('command')
+        pyautogui.keyUp('tab')
+
+    @staticmethod
+    def __write_command(command: str):
+        pyautogui.typewrite(command)
+        pyautogui.press('f5')
+
+    @staticmethod
+    def __write_address(address: str):
+        pyautogui.typewrite(address)
+        pyautogui.press('f4')
 
 
 def main():
@@ -13,29 +48,8 @@ def main():
     variant_getter.read_program(file_name)
     program = variant_getter.program
 
-    pyautogui.keyDown('command')
-    pyautogui.keyDown('tab')
-
-    pyautogui.keyUp('command')
-    pyautogui.keyUp('tab')
-
-    address_last = 0
-    for address_new, data in program.items():
-
-        address_current = data.address_int
-        address_delta = address_current - address_last
-
-        if address_delta != 1:
-            pyautogui.typewrite(data.address_bin)
-            pyautogui.press('f4')
-
-        pyautogui.typewrite(data.data_bin)
-        pyautogui.press('f5')
-
-        address_last = address_current
-
-    pyautogui.typewrite(variant_getter.program_start)
-    pyautogui.press('f4')
+    words_writer = WordsWriter()
+    words_writer.write_program(program, variant_getter.program_start)
 
 
 if __name__ == '__main__':
