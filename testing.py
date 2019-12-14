@@ -1,26 +1,11 @@
-from pprint import pprint
-from typing import Dict, List, Tuple
-
-import pytesseract
-import pyautogui
-from PIL.Image import Image
-
-from src.bcomp_reader import BCompReader
-from src.screen_config import ScreenConfig
-from src.size import Size
-
+from collections import namedtuple
 
 def main():
-    cfg = ScreenConfig()
-    screenshot = pyautogui.screenshot(region = cfg.coords)
-
-    bcomp_reader = BCompReader()
-    flags, ram = bcomp_reader.get_flags_and_ram(cfg.flags_config, cfg.ram_size, screenshot)
-
-    pprint(flags)
-    pprint(ram)
-
-    print('check 1')
+    Test = namedtuple('Test', ['data', 'is_command'])
+    test = Test('000', True)
+    print(type(test))
+    print(test)
+    print(test.data)
 
 
 if __name__ == '__main__':

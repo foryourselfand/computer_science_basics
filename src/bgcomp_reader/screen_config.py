@@ -1,6 +1,6 @@
 from typing import Dict
 
-from src.size import Size
+from src.bgcomp_reader.size import Size
 from src.utils.hash_list import HashList
 
 

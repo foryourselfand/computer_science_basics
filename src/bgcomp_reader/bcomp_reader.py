@@ -3,7 +3,7 @@ from typing import Dict, Tuple, List
 from PIL.Image import Image
 from pytesseract import pytesseract
 
-from src.size import Size
+from src.bgcomp_reader.size import Size
 from src.utils.hash_list import HashList
 
 
