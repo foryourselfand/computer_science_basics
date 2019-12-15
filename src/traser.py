@@ -3,6 +3,8 @@ import time
 from typing import Dict, List
 
 from src.bgcomp_reader.bcomp_reader import BCompReader
+from src.formatters.formatter import Formatter
+from src.formatters.trace.formatter_trace_file import FormatterTraseFile
 from src.utils.helper import Helper
 from src.variant_getter import VariantGetter
 from src.words_writer import WordsWriter
@@ -81,6 +83,9 @@ def main():
     
     traser = Traser()
     result = traser.get_trase(file_name)
+    
+    formatter: Formatter = FormatterTraseFile()
+    formatter.format_output(result, variant)
     
     with open(f'{Helper().get_project_root()}/pickles/{variant}.pickle', 'wb') as output_file:
         pickle.dump(result, output_file)
