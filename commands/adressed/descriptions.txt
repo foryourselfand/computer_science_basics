@@ -1,0 +1,13 @@
+M & AC → AC
+^(^M & ^AC) → AC
+M + AC → AC
+M + AC + C → AC
+AC – M → AC
+Установить флаги по результату АС – М
+М - 1 → М; Если М < 0, то IP + 1 → IP
+
+M → AC
+M ↔ AC
+M → IP
+SP - 1 → SP, IP → (SP), M → IP
+AC → M

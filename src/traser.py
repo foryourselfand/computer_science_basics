@@ -32,7 +32,7 @@ class Traser:
         self.words_writer.write_program(program, program_start)
         
         wait_flag = True
-        for address, data in program.program.items():
+        for address, data in program.items():
             if wait_flag:
                 if program_start == data.address_bin:
                     wait_flag = False

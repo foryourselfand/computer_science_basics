@@ -1,0 +1,13 @@
+AND  M
+ OR  M
+ADD  M
+ADC  M
+SUB  M
+CMP  M
+LOOP M
+
+ LD  M
+SWAM M
+JUMP M
+CALL M
+ ST  M
