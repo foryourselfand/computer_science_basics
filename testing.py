@@ -4,7 +4,7 @@ from pprint import pprint
 from typing import Dict, List
 
 from src.bgcomp_reader.bcomp_reader import BCompReader
-from src.utils.helper import get_project_root
+from src.utils.helper import Helper
 from src.variant_getter import VariantGetter
 from src.words.words_writer import WordsWriter
 
@@ -90,7 +90,7 @@ def main():
     for output in result:
         print(output)
     
-    with open(f'{get_project_root()}/pickles/{variant}.pickle', 'wb') as output_file:
+    with open(f'{Helper().get_project_root()}/pickles/{variant}.pickle', 'wb') as output_file:
         pickle.dump(result, output_file)
 
 

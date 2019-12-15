@@ -8,7 +8,8 @@ from PIL.Image import Image
 from pytesseract import pytesseract
 
 from src.bgcomp_reader.screen_config import ScreenConfig
-from src.utils.helper import get_project_root
+from src.utils.helper import Helper
+from src.words.words_writer import WordsWriter
 
 
 class BCompReader:
@@ -19,7 +20,6 @@ class BCompReader:
         self.__ram: Dict[str, str] = dict()
         self.__delay_y: int = 84
         self.__screenshot: Image = Image()
-        self.n = 0
     
     def get_flags_and_ram(self) \
             -> Tuple[Dict[str, str], Dict[str, str]]:
@@ -31,8 +31,8 @@ class BCompReader:
         self.__ram = dict()
         
         self.__screenshot = pyautogui.screenshot(region = self.__cfg.coords)
-        self.__screenshot.save(f'{get_project_root()}/images/tmp/{self.n}.png')
-        self.n += 1
+        # self.__screenshot.save(f'{get_project_root()}/images/tmp/{self.n}.png')
+        # self.n += 1
         self.__process_flags()
         self.__process_ram()
         
@@ -128,9 +128,9 @@ class BCompReader:
         ram_right = ram_image.crop((100, 0,
                                     self.__cfg.ram_size.width, self.__cfg.ram_size.height))
         
-        ram_image.save(f'{get_project_root()}/images/ram_temp.png')
-        ram_left.save(f'{get_project_root()}/images/ram_left.png')
-        ram_right.save(f'{get_project_root()}/images/ram_right.png')
+        # ram_image.save(f'{get_project_root()}/images/ram_temp.png')
+        # ram_left.save(f'{get_project_root()}/images/ram_left.png')
+        # ram_right.save(f'{get_project_root()}/images/ram_right.png')
         
         allowed_digits = '0123456789'
         # allowed_chars_lower = 'abcdef'
@@ -164,10 +164,10 @@ class BCompReader:
         for key, value in zip(ram_left_list, ram_right_list):
             self.__ram[key] = value
     
-    def __read_flag(self, x: int, y: int, width: int, height: int, y_multiplier: int) -> str:
+    def __read_flag(self, x: int, y: int, width: int, height: int, y_multiplier: int, name: str) -> str:
         screenshot_part: Image = self.__screenshot.crop((x, y + self.__delay_y * y_multiplier,
                                                          x + width, y + height + self.__delay_y * y_multiplier))
-        
+        screenshot_part.save(f'{Helper.get_project_root()}/images/{name}.png')
         text: str = pytesseract.image_to_string(screenshot_part)
         return text
     
@@ -197,6 +197,9 @@ class BCompReader:
 
 
 def main():
+    words_writer = WordsWriter()
+    words_writer.switch_to_next_window()
+    
     bcomp_reader = BCompReader()
     
     flags, ram = bcomp_reader.get_flags_and_ram()
