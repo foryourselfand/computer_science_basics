@@ -5,7 +5,7 @@ from src.utils.helper import ProgramType
 
 class WordsWriter:
     def write_program(self, program: ProgramType, program_start: str):
-        self.__switch_to_next_window()
+        self.switch_to_next_window()
 
         address_last = 0
         for address_new, data in program.items():
@@ -23,13 +23,13 @@ class WordsWriter:
         self.__write_address(program_start)
 
     @staticmethod
-    def __switch_to_next_window():
+    def switch_to_next_window():
         pyautogui.keyDown('command')
-        pyautogui.keyDown('alt')
+        # pyautogui.keyDown('alt')
         pyautogui.keyDown('tab')
 
         pyautogui.keyUp('command')
-        pyautogui.keyDown('alt')
+        # pyautogui.keyUp('alt')
         pyautogui.keyUp('tab')
 
     @staticmethod
@@ -48,7 +48,7 @@ class WordsWriter:
 
 
 def main():
-    file_name = 'variants/4114.txt'
+    file_name = 'variants/slava.txt'
 
     variant_getter = VariantGetter()
     variant_getter.read_program(file_name)

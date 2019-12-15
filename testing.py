@@ -40,12 +40,24 @@ def main():
         if not data.is_command:
             continue
         
+        time.sleep(2)
+        words_writer.press_continue()
+        time.sleep(2)
+        
         print(address, data.data_hex)
         flags, ram_current = bcomp_reader.get_flags_and_ram()
         
+        print('flags')
         pprint(flags)
+        print()
+        
+        print('ram_current')
         pprint(ram_current)
-        print('-' * 50)
+        print()
+        
+        print('ram_all')
+        pprint(ram_all)
+        print()
         
         ip = from_bin_to_hex(flags['IP'], 3)
         cr = from_bin_to_hex(flags['CR'], 4)
@@ -73,10 +85,7 @@ def main():
                        ip, cr, ar, dr, sp, br, ac, nzvc,
                        output_new_address, output_new_code]
         result.append(temp_output)
-        
-        time.sleep(2.5)
-        words_writer.press_continue()
-        time.sleep(2.5)
+        print('-' * 50)
     
     for output in result:
         print(output)
