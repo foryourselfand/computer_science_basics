@@ -11,7 +11,7 @@ class WordsWriter:
         self.key: str = ''
         if os.sys.platform == 'win32':
             self.key = 'alt'
-        elif os.sys.platform == 'win32':
+        elif os.sys.platform == 'darwin':
             self.key = 'command'
     
     def write_program(self, program: Helper.ProgramType, program_start: str):
