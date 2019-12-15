@@ -4,13 +4,14 @@ from typing import Dict, List
 
 from src.bgcomp_reader.bcomp_reader import BCompReader
 from src.formatters.formatter import Formatter
-from src.formatters.trace.formatter_trace_file import FormatterTraseFile
+from src.formatters.trace.formatter_trace_file import FormatterTraceFile
+from src.formatters.trace.formatter_trace_print import FormatterTracePrint
 from src.utils.helper import Helper
 from src.variant_getter import VariantGetter
 from src.words_writer import WordsWriter
 
 
-class Traser:
+class Tracer:
     def __init__(self, time_to_sleep: float = 2.5):
         self.time_to_sleep = time_to_sleep
         
@@ -20,8 +21,10 @@ class Traser:
         
         self.ram_all: Dict[str, str] = dict()
         self.result: List[List[str]] = list()
+        
+        self.formatter: Formatter = FormatterTracePrint()
     
-    def get_trase(self, full_file_name: str):
+    def get_trace(self, full_file_name: str):
         self.ram_all.clear()
         self.result.clear()
         
@@ -36,6 +39,7 @@ class Traser:
             if wait_flag:
                 if program_start == data.address_bin:
                     wait_flag = False
+                    self.formatter.format_output_header()
             if wait_flag:
                 continue
             if not data.is_command:
@@ -61,6 +65,7 @@ class Traser:
             temp_output = [address, data.data_hex,
                            ip, cr, ar, dr, sp, br, ac, nzvc,
                            output_new_address, output_new_code]
+            self.formatter.format_output(temp_output)
             self.result.append(temp_output)
         return self.result
     
@@ -77,15 +82,16 @@ class Traser:
 
 
 def main():
-    variant = 'andrey'
+    variant = 'slava'
     
     file_name = f'variants/{variant}.txt'
     
-    traser = Traser()
-    result = traser.get_trase(file_name)
+    tracer = Tracer(1)
+    result = tracer.get_trace(file_name)
     
-    formatter: Formatter = FormatterTraseFile()
-    formatter.format_output(result, variant)
+    formatters: List[Formatter] = [FormatterTraceFile()]
+    for formatter in formatters:
+        formatter.format_outputs(result, variant)
     
     with open(f'{Helper().get_project_root()}/pickles/{variant}.pickle', 'wb') as output_file:
         pickle.dump(result, output_file)
