@@ -4,18 +4,19 @@ from typing import Dict, List
 
 from src.bgcomp_reader.bcomp_reader import BCompReader
 from src.formatters.formatter import Formatter
-from src.formatters.trace.formatter_trace_file import FormatterTraceFile
 from src.formatters.trace.formatter_trace_print import FormatterTracePrint
+from src.program_getter import ProgramGetter
+from src.trace_printer import TracePrinter
+from src.utils.args_getter import ArgsGetter
 from src.utils.helper import Helper
-from src.variant_getter import VariantGetter
 from src.words_writer import WordsWriter
 
 
-class Tracer:
+class TraceGetter:
     def __init__(self, time_to_sleep: float = 2.5):
         self.time_to_sleep = time_to_sleep
         
-        self.variant_getter = VariantGetter()
+        self.variant_getter = ProgramGetter()
         self.words_writer = WordsWriter()
         self.bcomp_reader = BCompReader()
         
@@ -82,19 +83,15 @@ class Tracer:
 
 
 def main():
-    variant = 'slava'
+    file_name_short, file_name_full = ArgsGetter.get_short_full_file_name('typing you variant and printing trace')
     
-    file_name = f'variants/{variant}.txt'
+    tracer = TraceGetter(1)
+    result = tracer.get_trace(file_name_full)
     
-    tracer = Tracer(1)
-    result = tracer.get_trace(file_name)
-    
-    formatters: List[Formatter] = [FormatterTraceFile()]
-    for formatter in formatters:
-        formatter.format_outputs(result, variant)
-    
-    with open(f'{Helper().get_project_root()}/pickles/{variant}.pickle', 'wb') as output_file:
+    with open(f'{Helper().get_project_root()}/pickles/{file_name_short}.pickle', 'wb') as output_file:
         pickle.dump(result, output_file)
+        
+    TracePrinter.print_trace(file_name_short, False)
 
 
 if __name__ == '__main__':

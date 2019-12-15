@@ -1,10 +1,11 @@
 from pprint import pprint
 from typing import List
 
+from src.utils.args_getter import ArgsGetter
 from src.utils.helper import Helper
 
 
-class VariantGetter:
+class ProgramGetter:
     def __init__(self):
         self.program: Helper.ProgramType = dict()
         self.program_start: str = '000'
@@ -12,7 +13,7 @@ class VariantGetter:
     def read_program(self, full_file_name: str):
         address_current: int = 0
         
-        with open(f'{Helper.get_project_root()}/{full_file_name}', 'r') as file_input:
+        with open(full_file_name, 'r') as file_input:
             for line_raw in file_input.read().splitlines():
                 if 'a' in line_raw or len(line_raw) == 3:
                     address_flag = True
@@ -55,15 +56,12 @@ class VariantGetter:
 
 
 def main():
-    file_name = 'variants/4114.txt'
+    file_name_short, file_name_full = ArgsGetter.get_short_full_file_name('gets {your_program}.txt as program')
     
-    variant_getter = VariantGetter()
-    variant_getter.read_program(file_name)
+    variant_getter = ProgramGetter()
+    variant_getter.read_program(file_name_full)
     program = variant_getter.program
     pprint(program)
-    
-    addresses = variant_getter.get_addresses()
-    pprint(addresses)
 
 
 if __name__ == '__main__':

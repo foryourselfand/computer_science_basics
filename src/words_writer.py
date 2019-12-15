@@ -2,8 +2,9 @@ import os
 
 import pyautogui
 
+from src.utils.args_getter import ArgsGetter
 from src.utils.helper import Helper
-from src.variant_getter import VariantGetter
+from src.program_getter import ProgramGetter
 
 
 class WordsWriter:
@@ -55,10 +56,10 @@ class WordsWriter:
 
 
 def main():
-    file_name = 'variants/slava.txt'
+    file_name_short, file_name_full = ArgsGetter.get_short_full_file_name('switching to bcomp and typing yours variant')
     
-    variant_getter = VariantGetter()
-    variant_getter.read_program(file_name)
+    variant_getter = ProgramGetter()
+    variant_getter.read_program(file_name_full)
     program = variant_getter.program
     
     words_writer = WordsWriter()

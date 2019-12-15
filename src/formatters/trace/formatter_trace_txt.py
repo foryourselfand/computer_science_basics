@@ -5,7 +5,7 @@ from src.formatters.trace.formatter_trace import FormatterTrace
 from src.utils.helper import Helper
 
 
-class FormatterTraceFile(FormatterTrace):
+class FormatterTraceTxt(FormatterTrace):
     def __init__(self):
         super().__init__()
         self.file_output: TextIOWrapper = None
