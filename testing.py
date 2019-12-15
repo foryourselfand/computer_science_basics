@@ -1,14 +1,12 @@
+import pickle
 import time
-from collections import namedtuple
 from pprint import pprint
 from typing import Dict, List
 
 from src.bgcomp_reader.bcomp_reader import BCompReader
-from src.bgcomp_reader.screen_config import ScreenConfig
+from src.utils.helper import get_project_root
 from src.variant_getter import VariantGetter
 from src.words.words_writer import WordsWriter
-import pickle
-from src.utils.helper import get_project_root
 
 
 def from_bin_to_hex(input_number: str, zeroes_count: int):
@@ -16,20 +14,22 @@ def from_bin_to_hex(input_number: str, zeroes_count: int):
 
 
 def main():
-    file_name = 'variants/andrey.txt'
-
+    variant = 'slava'
+    
+    file_name = f'variants/{variant}.txt'
+    
     variant_getter = VariantGetter()
     variant_getter.read_program(file_name)
     program = variant_getter.program
-
+    
     words_writer = WordsWriter()
     words_writer.write_program(program, variant_getter.program_start)
-
+    
     bcomp_reader = BCompReader()
-
+    
     ram_all: Dict[str, str] = dict()
     result: List[List[str]] = list()
-
+    
     wait_flag = True
     for address, data in variant_getter.program.items():
         if wait_flag:
@@ -39,14 +39,14 @@ def main():
             continue
         if not data.is_command:
             continue
-
+        
         print(address, data.data_hex)
         flags, ram_current = bcomp_reader.get_flags_and_ram()
-
+        
         pprint(flags)
         pprint(ram_current)
         print('-' * 50)
-
+        
         ip = from_bin_to_hex(flags['IP'], 3)
         cr = from_bin_to_hex(flags['CR'], 4)
         ar = from_bin_to_hex(flags['AR'], 3)
@@ -56,7 +56,7 @@ def main():
         ac = from_bin_to_hex(flags['AC'], 4)
         nzvc = flags['PS'][-4:]
         print('nzvc:', nzvc)
-
+        
         output_new_address, output_new_code = '', ''
         for key_current, value_current in ram_current.items():
             if key_current not in ram_all.keys():
@@ -68,20 +68,20 @@ def main():
                 output_new_address, output_new_code = key_current, value_current
         print('output_new_address:', output_new_address)
         print('output_new_code:', output_new_code)
-
+        
         temp_output = [address, data.data_hex,
                        ip, cr, ar, dr, sp, br, ac, nzvc,
                        output_new_address, output_new_code]
         result.append(temp_output)
-
+        
         time.sleep(2.5)
         words_writer.press_continue()
         time.sleep(2.5)
-
+    
     for output in result:
         print(output)
-
-    with open(f'{get_project_root()}/output.pickle', 'wb') as output_file:
+    
+    with open(f'{get_project_root()}/pickles/{variant}.pickle', 'wb') as output_file:
         pickle.dump(result, output_file)
 
 

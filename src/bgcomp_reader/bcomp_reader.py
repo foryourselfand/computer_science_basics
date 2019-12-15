@@ -35,12 +35,12 @@ class BCompReader:
         self.__process_flags()
         self.__process_ram()
 
-        self.__fix_ram()
+        # self.__fix_ram()
+        #
+        # if not self.__check_ram_values():
+        #     print('BUT HURT')
 
-        if not self.__check_ram_values():
-            print('BUT HURT')
-
-        self.__reduce_ram()
+        # self.__reduce_ram()
 
     def get_flags(self):
         return self.__flags
@@ -51,10 +51,13 @@ class BCompReader:
     def __reduce_ram(self):
         new_ram: Dict[str, str] = dict()
         for key, value in self.__ram.items():
+            print(f'{key} -> {value}')
             if value == '0000':
                 continue
+            print('saving')
             new_ram[key] = value
-        self.__ram = new_ram
+            print()
+        self.__ram = new_ram.copy()
 
     def __process_flags(self):
         for names, size in self.__cfg.flags_config.items():
@@ -111,6 +114,7 @@ class BCompReader:
         ram_image = self.__screenshot.crop((self.__cfg.ram_size.x, self.__cfg.ram_size.y,
                                             self.__cfg.ram_size.x + self.__cfg.ram_size.width,
                                             self.__cfg.ram_size.y + self.__cfg.ram_size.height))
+        ram_image.save(f'{get_project_root()}/images/ram_temp.png')
         allowed_digits = '0123456789'
         allowed_chars_lower = 'abcdef'
         allowed_chars_upper = 'ABCDEF'

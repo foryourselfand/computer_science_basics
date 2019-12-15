@@ -25,9 +25,11 @@ class WordsWriter:
     @staticmethod
     def __switch_to_next_window():
         pyautogui.keyDown('command')
+        pyautogui.keyDown('alt')
         pyautogui.keyDown('tab')
 
         pyautogui.keyUp('command')
+        pyautogui.keyDown('alt')
         pyautogui.keyUp('tab')
 
     @staticmethod
