@@ -46,7 +46,7 @@ class BCompReader:
     
     def get_ram(self):
         return self.__ram
-
+    
     # def __reduce_ram(self):
     #     new_ram: Dict[str, str] = dict()
     #     for key, value in self.__ram.items():
