@@ -126,7 +126,7 @@ class BCompReader:
         ram_left = ram_image.crop((0, 0,
                                    95, self.__cfg.ram_size.height))
         ram_right = ram_image.crop((100, 0,
-                                   self.__cfg.ram_size.width, self.__cfg.ram_size.height))
+                                    self.__cfg.ram_size.width, self.__cfg.ram_size.height))
         
         ram_image.save(f'{get_project_root()}/images/ram_temp.png')
         ram_left.save(f'{get_project_root()}/images/ram_left.png')
@@ -141,7 +141,27 @@ class BCompReader:
         ram_left_str = pytesseract.image_to_string(ram_left, config = config_temp)
         ram_right_str = pytesseract.image_to_string(ram_right, config = config_temp)
         
-        for key, value in zip(ram_left_str.splitlines(), ram_right_str.splitlines()):
+        ram_left_list = []
+        for ram_left_temp in ram_left_str.splitlines():
+            if ram_left_temp == '':
+                continue
+            ram_left_list.append(ram_left_temp)
+        
+        ram_right_list = []
+        for ram_right_temp in ram_right_str.splitlines():
+            if ram_right_temp == '':
+                continue
+            ram_right_list.append(ram_right_temp)
+        
+        # print('ram_left_str')
+        # print(ram_left_str)
+        # print()
+        #
+        # print('ram_right_str')
+        # print(ram_right_str)
+        # print()
+        
+        for key, value in zip(ram_left_list, ram_right_list):
             self.__ram[key] = value
     
     def __read_flag(self, x: int, y: int, width: int, height: int, y_multiplier: int) -> str:
