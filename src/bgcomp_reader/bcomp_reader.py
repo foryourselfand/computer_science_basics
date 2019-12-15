@@ -8,8 +8,7 @@ from PIL.Image import Image
 from pytesseract import pytesseract
 
 from src.bgcomp_reader.screen_config import ScreenConfig
-from src.utils.helper import Helper
-from src.words.words_writer import WordsWriter
+from src.words_writer import WordsWriter
 
 
 class BCompReader:
@@ -164,10 +163,9 @@ class BCompReader:
         for key, value in zip(ram_left_list, ram_right_list):
             self.__ram[key] = value
     
-    def __read_flag(self, x: int, y: int, width: int, height: int, y_multiplier: int, name: str) -> str:
+    def __read_flag(self, x: int, y: int, width: int, height: int, y_multiplier: int) -> str:
         screenshot_part: Image = self.__screenshot.crop((x, y + self.__delay_y * y_multiplier,
                                                          x + width, y + height + self.__delay_y * y_multiplier))
-        screenshot_part.save(f'{Helper.get_project_root()}/images/{name}.png')
         text: str = pytesseract.image_to_string(screenshot_part)
         return text
     

@@ -21,3 +21,7 @@ class Helper:
         word: str = bin(int(code, 16))[2:]
         word_with_zeroes = word.zfill(16)
         return word_with_zeroes
+    
+    @staticmethod
+    def from_bin_to_hex(input_number: str, zeroes_count: int):
+        return hex(int(input_number, 2))[2:].zfill(zeroes_count).upper()

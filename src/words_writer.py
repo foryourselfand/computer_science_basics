@@ -13,6 +13,7 @@ class WordsWriter:
             self.key = 'alt'
         elif os.sys.platform == 'darwin':
             self.key = 'command'
+        print('self.key:', self.key)
     
     def write_program(self, program: Helper.ProgramType, program_start: str):
         self.switch_to_next_window()
@@ -36,7 +37,7 @@ class WordsWriter:
         pyautogui.keyDown(self.key)
         pyautogui.keyDown('tab')
         
-        pyautogui.keyDown(self.key)
+        pyautogui.keyUp(self.key)
         pyautogui.keyUp('tab')
     
     @staticmethod

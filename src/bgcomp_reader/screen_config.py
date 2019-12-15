@@ -6,11 +6,11 @@ from src.utils.hash_list import HashList
 
 class ScreenConfig:
     def __init__(self):
-        # self.multiplier = 2  # MAC
-        self.multiplier = 1  # WIN
+        self.multiplier = 2  # MAC
+        # self.multiplier = 1  # WIN
         
-        # self.divider = 1  # MAC
-        self.divider = 2  # WIN
+        self.divider = 1  # MAC
+        # self.divider = 2  # WIN
         
         self.delay_y: int = 0
         self.coords = tuple()
