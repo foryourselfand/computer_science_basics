@@ -77,7 +77,7 @@ class Traser:
 
 
 def main():
-    variant = 'slava'
+    variant = 'andrey'
     
     file_name = f'variants/{variant}.txt'
     
