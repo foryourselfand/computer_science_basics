@@ -55,7 +55,7 @@ class VariantGetter:
 
 
 def main():
-    file_name = 'variants/4114.txt'
+    file_name = 'variants/slava.txt'
 
     variant_getter = VariantGetter()
     variant_getter.read_program(file_name)

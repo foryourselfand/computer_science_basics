@@ -37,7 +37,7 @@ class BCompReader:
         self.__process_ram()
         
         self.__fix_ram()
-        self.__reduce_ram()
+        # self.__reduce_ram()
         
         if not self.__check_ram_values():
             print('BUT HURT')
@@ -47,15 +47,15 @@ class BCompReader:
     
     def get_ram(self):
         return self.__ram
-    
-    def __reduce_ram(self):
-        new_ram: Dict[str, str] = dict()
-        for key, value in self.__ram.items():
-            if value == '0000':
-                continue
-            new_ram[key] = value
-        self.__ram = new_ram.copy()
-    
+
+    # def __reduce_ram(self):
+    #     new_ram: Dict[str, str] = dict()
+    #     for key, value in self.__ram.items():
+    #         if value == '0000':
+    #             continue
+    #         new_ram[key] = value
+    #     self.__ram = new_ram.copy()
+    #
     def __process_flags(self):
         for names, size in self.__cfg.flags_config.items():
             for y_multiplier, name_key in enumerate(names):
