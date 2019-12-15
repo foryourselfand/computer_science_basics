@@ -1,3 +1,5 @@
+import os
+
 import pyautogui
 
 from src.utils.helper import Helper
@@ -5,6 +7,13 @@ from src.variant_getter import VariantGetter
 
 
 class WordsWriter:
+    def __init__(self):
+        self.key: str = ''
+        if os.sys.platform == 'win32':
+            self.key = 'alt'
+        elif os.sys.platform == 'win32':
+            self.key = 'command'
+    
     def write_program(self, program: Helper.ProgramType, program_start: str):
         self.switch_to_next_window()
         
@@ -23,14 +32,11 @@ class WordsWriter:
         
         self.__write_address(program_start)
     
-    @staticmethod
-    def switch_to_next_window():
-        pyautogui.keyDown('command')
-        pyautogui.keyDown('alt')
+    def switch_to_next_window(self):
+        pyautogui.keyDown(self.key)
         pyautogui.keyDown('tab')
         
-        pyautogui.keyUp('command')
-        pyautogui.keyUp('alt')
+        pyautogui.keyDown(self.key)
         pyautogui.keyUp('tab')
     
     @staticmethod
