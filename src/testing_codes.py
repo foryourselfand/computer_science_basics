@@ -18,7 +18,7 @@ class CodesController:
         elif self.pattern_addressed.match(code):
             return 'Адресная'
         else:
-            return '!Комманда не соответствует ни одному формату!'
+            return '!Команда не соответствует ни одному формату!'
 
 
 def main():
