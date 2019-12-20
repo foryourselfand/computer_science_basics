@@ -1,0 +1,12 @@
+Адрес 	Код    	IP 	CR  	AR 	DR  	SP 	BR  	AC  	NZVC	Новый адрес	Новый Код
+0CA   	0200   	0CB	0200	0CA	0200	000	00CA	0000	0100	           	         
+0CB   	30D2   	0CC	30D2	0D2	FFFF	000	0000	FFFF	1000	           	         
+0CC   	30C9   	0CD	30C9	0C9	0000	000	0000	FFFF	1000	           	         
+0CD   	E0D4   	0CE	E0D4	0D4	FFFF	000	00CD	FFFF	1000	0D4        	FFFF     
+0CE   	A0D3   	0CF	A0D3	0D3	3F9C	000	00CE	3F9C	0000	           	         
+0CF   	60D4   	0D0	60D4	0D4	FFFF	000	00CF	3F9D	0000	           	         
+0D0   	E0C8   	0D1	E0C8	0C8	3F9D	000	00D0	3F9D	0000	0C8        	3F9D     
+0D1   	0100   	0D2	0100	0D1	0100	000	00D1	3F9D	0000	           	         
+0D2   	FFFF   	0D3	FFFF	0D2	FFFF	000	00D2	3F9D	0000	           	         
+0D3   	3F9C   	0D3	FFFF	0D2	FFFF	000	00D2	3F9D	0000	           	         
+0D4   	0000   	0D3	FFFF	0D2	FFFF	000	00D2	3F9D	0000	           	         
