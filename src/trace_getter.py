@@ -42,7 +42,7 @@ class TraceGetter:
 
         cr = ''
         while cr != '0100':
-            # time.sleep(self.time_to_sleep)
+            time.sleep(self.time_to_sleep)
             self.words_writer.press_continue()
             time.sleep(self.time_to_sleep)
 
@@ -88,7 +88,7 @@ class TraceGetter:
 def main():
     file_name_short, file_name_full = ArgsGetter.get_short_full_file_name('typing you variant and printing trace')
 
-    tracer = TraceGetter(1)
+    tracer = TraceGetter(2)
     result = tracer.get_trace(file_name_full)
 
     with open(f'{Helper().get_project_root()}/pickles/{file_name_short}.pickle', 'wb+') as output_file:
