@@ -88,7 +88,7 @@ class TraceGetter:
 def main():
     file_name_short, file_name_full = ArgsGetter.get_short_full_file_name('typing you variant and printing trace')
 
-    tracer = TraceGetter(2)
+    tracer = TraceGetter(0.5)
     result = tracer.get_trace(file_name_full)
 
     with open(f'{Helper().get_project_root()}/pickles/{file_name_short}.pickle', 'wb+') as output_file:
