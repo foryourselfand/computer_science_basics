@@ -1,12 +1,13 @@
+import pickle
 from pprint import pprint
 from typing import Dict, List
 
 from src.utils.helper import Helper
-import pickle
+
 
 def main():
     commands_dict: Dict[str, Dict[str, List[str]]] = dict()
-    command_types = ['addressed', 'if', 'io', 'unnadressed']
+    command_types = ['addressed', 'if', 'io', 'unaddressed']
 
     dict_types = ['code', 'description', 'mnemonic', 'nzvc']
 

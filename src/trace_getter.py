@@ -88,7 +88,7 @@ def main():
     tracer = TraceGetter(1)
     result = tracer.get_trace(file_name_full)
     
-    with open(f'{Helper().get_project_root()}/pickles/{file_name_short}.pickle', 'wb') as output_file:
+    with open(f'{Helper().get_project_root()}/pickles/{file_name_short}.pickle', 'wb+') as output_file:
         pickle.dump(result, output_file)
         
     TracePrinter.print_trace(file_name_short, False)
