@@ -1,6 +1,0 @@
-Адрес 	Код    	IP 	CR  	AR 	DR  	SP 	BR  	AC  	NZVC	Новый адрес	Новый Код
-0BB   	A0B7   	0BC	A0B7	0B7	8000	000	00BB	8000	1000	           	         
-0BC   	40B8   	0BD	40B8	0B8	0000	000	00BC	8000	1000	           	         
-0BD   	30B9   	0BE	30B9	0B9	4000	000	3FFF	C000	1000	           	         
-0BE   	E0BA   	0BF	E0BA	0BA	C000	000	00BE	C000	1000	0BA        	C000     
-0BF   	0100   	0C0	0100	0BF	0100	000	00BF	C000	1000	           	         

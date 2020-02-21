@@ -42,7 +42,7 @@ class TraceGetter:
 
         cr = ''
         while cr != '0100':
-            time.sleep(self.time_to_sleep)
+            # time.sleep(self.time_to_sleep)
             self.words_writer.press_continue()
             time.sleep(self.time_to_sleep)
 
